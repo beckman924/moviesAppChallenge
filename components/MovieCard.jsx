@@ -10,8 +10,8 @@ function MovieCard({ movie }) {
     <div className="overflow-hidden relative">
       <Image
         src={movie.poster_path ? imgPath : PosterNotAvailable}
-        width="300px"
-        height="410px"
+        width={400}
+        height={600}
         alt="Movie Image"
         layout="responsive"
         priority

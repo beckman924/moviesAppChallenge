@@ -11,7 +11,7 @@ import { useAppContext } from "../Context/AppContext";
 const MovieDetails = () => {
   const { dispatch, movieDetails, movieId } = useAppContext();
   const [width, setWidth] = React.useState(window.innerWidth);
-  const img = "https://image.tmdb.org/t/p/original";
+  const img = "";
   const [showImgText, setShowImgText] = React.useState(false);
   // const companyImage = "https://image.tmdb.org/t/p/original";
 
@@ -26,7 +26,11 @@ const MovieDetails = () => {
   if (movieDetails.length <= 0) {
     null;
   } else {
-    movieDetails.backdrop_path ? (img += movieDetails.backdrop_path) : null;
+    movieDetails.backdrop_path
+      ? (img =
+          "https://image.tmdb.org/t/p/original" + movieDetails.backdrop_path)
+      : null;
+    console.log(img);
 
     const renderTrailer = () => {
       const trailer = movieDetails.videos.results[0];
@@ -145,12 +149,13 @@ const MovieDetails = () => {
           ) : (
             <div className="w-full h-[50vh] grid relative">
               <Image
-                src={img}
+                src={img.length <= 0 ? `/no-poster-available.jpg` : img}
                 alt="Movie Poster"
                 className="w-full h-full"
                 width={400}
                 height={600}
-                objectFit="cover"
+                objectFit={img.length <= 0 ? "contain" : "cover"}
+                priority
                 onLoad={() => setShowImgText(true)}
               />
               {showImgText && (
