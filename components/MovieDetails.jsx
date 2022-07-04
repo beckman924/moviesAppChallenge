@@ -12,14 +12,12 @@ const MovieDetails = () => {
   const { dispatch, movieDetails, movieId } = useAppContext();
   const [width, setWidth] = React.useState(window.innerWidth);
   const img = "https://image.tmdb.org/t/p/original";
-  const companyImage = "https://image.tmdb.org/t/p/original";
+  // const companyImage = "https://image.tmdb.org/t/p/original";
 
   React.useEffect(() => {
     const handleResizeWindow = () => setWidth(window.innerWidth);
-    // subscribe to window resize event "onComponentDidMount"
     window.addEventListener("resize", handleResizeWindow);
     return () => {
-      // unsubscribe "onComponentDestroy"
       window.removeEventListener("resize", handleResizeWindow);
     };
   }, []);
@@ -173,20 +171,20 @@ const MovieDetails = () => {
                 <h3 className="font-light text-gray-400">
                   {minToHoursAndMin()}
                 </h3>
-                {movieDetails.production_companies.length > 0 ? (
+                {/* {movieDetails.production_companies.length > 0 ? (
                   <span className="flex items-start max-w-full max-h-5">
                     <Image
                       src={
                         (companyImage +=
                           movieDetails.production_companies[0].logo_path)
                       }
-                      width="100"
+                      width="50"
                       height="25"
-                      className="object-contain"
+                      className="object-contain bg-[#333333]"
                       alt="Logo company"
                     />
                   </span>
-                ) : null}
+                ) : null} */}
               </span>
               <span className="flex gap-1">
                 <h3>{movieDetails.vote_average}</h3>
@@ -195,7 +193,7 @@ const MovieDetails = () => {
             </span>
             <p>{movieDetails.overview}</p>
             {movieDetails.genres.length > 0 ? (
-              <span className="mt-2 flex gap-1 max-w-[1rem] ">
+              <span className="mt-2 flex gap-1 max-w-fit max-h-7">
                 {movieDetails.genres.map((genre) => {
                   return (
                     <p
