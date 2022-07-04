@@ -12,6 +12,7 @@ const MovieDetails = () => {
   const { dispatch, movieDetails, movieId } = useAppContext();
   const [width, setWidth] = React.useState(window.innerWidth);
   const img = "https://image.tmdb.org/t/p/original";
+  const [showImgText, setShowImgText] = React.useState(false);
   // const companyImage = "https://image.tmdb.org/t/p/original";
 
   React.useEffect(() => {
@@ -25,7 +26,7 @@ const MovieDetails = () => {
   if (movieDetails.length <= 0) {
     null;
   } else {
-    movieDetails.poster_path ? (img += movieDetails.poster_path) : null;
+    movieDetails.backdrop_path ? (img += movieDetails.backdrop_path) : null;
 
     const renderTrailer = () => {
       const trailer = movieDetails.videos.results[0];
@@ -93,12 +94,14 @@ const MovieDetails = () => {
     };
 
     return (
+      // Backdrop
       <div className="inset-0 fixed grid place-content-center bg-[rgba(0,0,0,0.6)] overflow-y-auto z-50">
         <Head>
           <title>{movieDetails.title}</title>
           <meta name="description" content="Movie detail" />
         </Head>
 
+        {/* Modal body */}
         <motion.div
           drag="y"
           dragConstraints={{ top: 0, bottom: 0.5 }}
@@ -110,8 +113,9 @@ const MovieDetails = () => {
           initial="hidden"
           animate="enter"
           exit="exit"
-          className="bg-[#181725] fixed left-auto right-auto top-auto bottom-0 pb-10 rounded-t-3xl sm:static sm:rounded-xl sm:w-[90vw] xl:w-[60vw]"
+          className="bg-[#181725] fixed left-auto right-auto top-auto bottom-0 pb-10 rounded-t-3xl sm:static sm:rounded-xl sm:w-[90vw] xl:w-[60vw] max-h-[99vh]"
         >
+          {/* Nav modal buttons will change on mobile and desktop */}
           {width > 768 ? (
             <div className="flex justify-between items-center top-0">
               <button
@@ -135,23 +139,29 @@ const MovieDetails = () => {
             </div>
           )}
 
+          {/* Shows the video trailer or if it´s empty show the poster image */}
           {movieDetails.videos.results.length > 0 ? (
             renderTrailer()
           ) : (
-            <div className="w-full h-[50vh] relative">
+            <div className="w-full h-[50vh] grid relative">
               <Image
                 src={img}
                 alt="Movie Poster"
-                className=""
-                width={475}
-                height={420}
+                className="w-full h-full"
+                width={400}
+                height={600}
+                objectFit="cover"
+                onLoad={() => setShowImgText(true)}
               />
-              <p className="absolute left-1 right-0 bottom-6 opacity-90 w-[10rem] bg-black text-white text-opacity-70 text-center">
-                Avance no disponible
-              </p>
+              {showImgText && (
+                <p className="absolute left-1 right-0 bottom-6 opacity-90 w-[10rem] bg-black text-white text-opacity-70 text-center">
+                  Avance no disponible
+                </p>
+              )}
             </div>
           )}
 
+          {/* Movie info */}
           <div className="p-2 text-white">
             <h1 className="text-left text-2xl font-medium">
               {movieDetails.homepage.length > 0 ? (

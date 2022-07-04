@@ -11,7 +11,11 @@ const variants = {
 function MyApp({ Component, pageProps }) {
   return (
     <AppContext>
-      <AnimatePresence exitBeforeEnter={true} variants={variants}>
+      <AnimatePresence
+        exitBeforeEnter={true}
+        variants={variants}
+        onExitComplete={() => window.scrollTo(0, 0)}
+      >
         <Component {...pageProps} />
       </AnimatePresence>
     </AppContext>
