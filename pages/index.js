@@ -6,9 +6,10 @@ import { useRef, useEffect } from "react";
 import { useAppContext } from "../Context/AppContext.jsx";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
-import { RefreshCircle } from "@styled-icons/ionicons-solid/RefreshCircle";
+// import { RefreshCircle } from "@styled-icons/ionicons-solid/RefreshCircle";
 import { Spinner5 } from "@styled-icons/icomoon/Spinner5";
 import InfiniteScroll from "react-infinite-scroll-component";
+import ScrollToTop from "../components/ScrollToTop.jsx";
 
 export default function Home(props) {
   const {
@@ -24,8 +25,6 @@ export default function Home(props) {
     movieId,
     modal,
   } = useAppContext();
-
-  const scrollableDiv = useRef();
 
   useEffect(() => {
     // Function to fetch data about an specific movie by his ID
@@ -126,14 +125,14 @@ export default function Home(props) {
         <Navbar />
       </nav>
 
-      <main className="text-white">
+      <main className="text-white overflow-hidden">
         {/* Infinite scroll component will trigger function hasMore when "hasMore" variable set to True */}
         <InfiniteScroll
           dataLength={movies.length}
           next={getMoreMovies}
           hasMore={hasMore}
           loader={
-            <div className="grid place-content-center animate-spin">
+            <div className="animate-spin">
               <Spinner5 className="w-10" />
             </div>
           }
@@ -150,10 +149,9 @@ export default function Home(props) {
           //     <Spinner5 className="w-10" />
           //   </div>
           // }
-          className="homeCards px-5 overflow-y-visible last:mb-5"
+          className="homeCards px-5 overflow-hidden last:mb-5"
         >
           {/* This will render all movies in home page */}
-
           {movies.map((movie) => {
             return (
               <motion.div
@@ -179,6 +177,7 @@ export default function Home(props) {
         >
           {modal && <MovieDetails />}
         </AnimatePresence>
+        <ScrollToTop />
       </main>
     </div>
   );
