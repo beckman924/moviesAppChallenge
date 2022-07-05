@@ -100,7 +100,10 @@ const MovieDetails = () => {
 
     return (
       // Backdrop
-      <div className="inset-0 fixed grid place-content-center bg-[rgba(0,0,0,0.6)] overflow-y-auto z-50">
+      <div
+        className="inset-0 fixed grid place-content-center bg-[rgba(0,0,0,0.6)] overflow-y-auto z-50"
+        onClick={() => dispatch({ type: "SET_MODAL", value: false })}
+      >
         <Head>
           <title>{movieDetails.title}</title>
           <meta name="description" content="Movie detail" />
@@ -118,7 +121,8 @@ const MovieDetails = () => {
           initial="hidden"
           animate="enter"
           exit="exit"
-          className="bg-[#181725] fixed left-auto right-auto top-auto bottom-0 pb-10 rounded-t-3xl w-full sm:static sm:rounded-xl sm:w-[90vw] xl:w-[60vw] max-h-[99vh]"
+          className="bg-[#181725] fixed left-auto right-auto top-auto bottom-0 pb-10 rounded-t-3xl w-full sm:static sm:rounded-xl sm:w-[90vw] xl:w-[60vw] max-h-[99vh] z-50"
+          onClick={(e) => e.stopPropagation()}
         >
           {/* Nav modal buttons will change on mobile and desktop */}
           {width > 768 ? (

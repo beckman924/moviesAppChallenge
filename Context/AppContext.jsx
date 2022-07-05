@@ -114,6 +114,21 @@ const reducer = (state, action) => {
         modal: action.value,
       };
 
+    case "DEFAULT_VALUES":
+      return {
+        ...state,
+        apiCase: "home",
+        hasMore: true,
+        query: "",
+        pageNro: 1,
+        total_pages: null,
+        rating: null,
+        minRating: 0,
+        movieId: null,
+        movieDetails: [],
+        modal: false,
+      };
+
     default:
       return state;
   }
