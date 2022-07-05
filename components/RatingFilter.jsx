@@ -21,6 +21,8 @@ function RatingFilter() {
     const defaultMovies = () => {
       dispatch({ type: "API_CASE", value: "home" });
       dispatch({ type: "QUERY", value: "" });
+      dispatch({ type: "SET_PAGE_NUMBER", value: 1 });
+      dispatch({ type: "PAGE_RATING", value: null });
     };
 
     const calcMinRating = () => {

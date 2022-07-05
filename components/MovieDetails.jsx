@@ -30,7 +30,6 @@ const MovieDetails = () => {
       ? (img =
           "https://image.tmdb.org/t/p/original" + movieDetails.backdrop_path)
       : null;
-    console.log(img);
 
     const renderTrailer = () => {
       const trailer = movieDetails.videos.results[0];
@@ -53,7 +52,9 @@ const MovieDetails = () => {
       let rhours = Math.floor(hours);
       let minutes = (hours - rhours) * 60;
       let rminutes = Math.round(minutes);
-      if (rhours === 0) {
+      if (rhours === 0 && rminutes === 0) {
+        return null;
+      } else if (rhours === 0) {
         return rminutes + " min";
       } else {
         return rhours + " h " + rminutes + " min";
@@ -117,7 +118,7 @@ const MovieDetails = () => {
           initial="hidden"
           animate="enter"
           exit="exit"
-          className="bg-[#181725] fixed left-auto right-auto top-auto bottom-0 pb-10 rounded-t-3xl sm:static sm:rounded-xl sm:w-[90vw] xl:w-[60vw] max-h-[99vh]"
+          className="bg-[#181725] fixed left-auto right-auto top-auto bottom-0 pb-10 rounded-t-3xl w-full sm:static sm:rounded-xl sm:w-[90vw] xl:w-[60vw] max-h-[99vh]"
         >
           {/* Nav modal buttons will change on mobile and desktop */}
           {width > 768 ? (
@@ -206,7 +207,11 @@ const MovieDetails = () => {
                 <Star className="w-[0.85rem]" color="#ffc107" />
               </span>
             </span>
-            <p>{movieDetails.overview}</p>
+            <p>
+              {movieDetails.overview
+                ? movieDetails.overview
+                : "Película sin descripción"}
+            </p>
             {movieDetails.genres.length > 0 ? (
               <span className="mt-2 flex gap-1 max-w-fit max-h-7">
                 {movieDetails.genres.map((genre) => {

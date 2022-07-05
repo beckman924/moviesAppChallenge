@@ -8,6 +8,8 @@ import { Suspense, useEffect, useState } from "react";
 import { useAppContext } from "../Context/AppContext.jsx";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
+import { RefreshCircle } from "@styled-icons/ionicons-solid/RefreshCircle";
+import { Spinner5 } from "@styled-icons/icomoon/Spinner5";
 
 export default function Home(props) {
   const {
@@ -82,6 +84,15 @@ export default function Home(props) {
     }
   };
 
+  const getDefaultMovies = () => {
+    dispatch({ type: "API_CASE", value: "home" });
+    dispatch({ type: "GET_MOVIES", value: props.movies });
+    dispatch({ type: "HAS_MORE", value: true });
+    dispatch({ type: "QUERY", value: "" });
+    dispatch({ type: "SET_PAGE_NUMBER", value: 1 });
+    dispatch({ type: "PAGE_RATING", value: null });
+  };
+
   useEffect(() => {
     const getMovieDetails = async () => {
       const MovieID = await axios.get(
@@ -93,16 +104,11 @@ export default function Home(props) {
       getMovieDetails();
     }
 
-    setTimeout(() => {
-      // if (apiCase === "home") {
-      //   dispatch({ type: "GET_MOVIES", value: props.movies });
-      // }
-      if (query.length === 0 && apiCase !== "rating_filter") {
-        dispatch({ type: "GET_MOVIES", value: props.movies });
-        dispatch({ type: "HAS_MORE", value: true });
-      }
-    }, 1000);
-  }, [apiCase, dispatch, movieId, props, query]);
+    if (apiCase === "home" && pageNro === 1 && modal === false) {
+      dispatch({ type: "GET_MOVIES", value: props.movies });
+      dispatch({ type: "HAS_MORE", value: true });
+    }
+  }, [apiCase, dispatch, modal, movieId, pageNro, props, query]);
 
   return (
     <div>
@@ -116,18 +122,32 @@ export default function Home(props) {
       </nav>
 
       <main className="text-white">
+        {/* <div className="homeCards px-5 overflow-x-hidden last:mb-5"> */}
         <InfiniteScroll
           dataLength={movies.length}
           next={getMoreMovies}
           hasMore={hasMore}
           loader={<MovieCardLoading />}
+          refreshFunction={getDefaultMovies}
+          pullDownToRefresh
+          pullDownToRefreshThreshold={50}
+          pullDownToRefreshContent={
+            <div className="grid place-content-center animate-spin">
+              <RefreshCircle className="w-10" />
+            </div>
+          }
+          releaseToRefreshContent={
+            <div className="grid place-content-center animate-spin">
+              <Spinner5 className="w-10" />
+            </div>
+          }
           className="homeCards px-5 overflow-x-hidden last:mb-5"
         >
           {movies.map((movie) => {
             return (
               <Suspense fallback={<MovieCardLoading />} key={movie.id}>
                 <motion.div
-                  key={movie.id}
+                  // key={movie.id}
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1, y: -5 }}
                   transition={{ delay: 0.2 }}
@@ -149,6 +169,7 @@ export default function Home(props) {
         >
           {modal && <MovieDetails />}
         </AnimatePresence>
+        {/* </div> */}
       </main>
     </div>
   );
