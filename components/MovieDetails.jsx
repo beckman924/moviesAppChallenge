@@ -121,7 +121,7 @@ const MovieDetails = () => {
           initial="hidden"
           animate="enter"
           exit="exit"
-          className="bg-[#181725] fixed left-auto right-auto top-auto bottom-0 pb-10 rounded-t-3xl w-full sm:static sm:rounded-xl sm:w-[90vw] xl:w-[60vw] max-h-[99vh] z-50"
+          className="bg-[#181725] fixed left-auto right-auto top-auto bottom-0 pb-10 rounded-t-3xl w-full sm:static sm:rounded-xl sm:w-[90vw] xl:w-[60vw] max-h-[96vh] z-50"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Nav modal buttons will change on mobile and desktop */}
