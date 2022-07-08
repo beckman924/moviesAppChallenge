@@ -42,6 +42,10 @@ export default function Home(props) {
       dispatch({ type: "GET_MOVIES", value: props.movies });
       dispatch({ type: "HAS_MORE", value: true });
     }
+
+    //Disables scrolling in home page when modal is open
+    if (modal) document.body.style.overflow = "hidden";
+    if (!modal) document.body.style.overflow = "unset";
   }, [apiCase, dispatch, modal, movieId, pageNro, props, query]);
 
   // Function that will be trigger when "hasMore" variable is set to True
