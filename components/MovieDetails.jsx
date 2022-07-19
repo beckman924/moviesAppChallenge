@@ -5,7 +5,7 @@ import { LineHorizontal1 } from "@styled-icons/fluentui-system-filled/LineHorizo
 import Image from "next/image";
 import { Star } from "@styled-icons/fa-solid/Star";
 import { Themoviedatabase } from "@styled-icons/simple-icons/Themoviedatabase";
-import { motion } from "framer-motion";
+import { motion, PanInfo } from "framer-motion";
 import { useAppContext } from "../Context/AppContext";
 
 const MovieDetails = () => {
@@ -112,16 +112,19 @@ const MovieDetails = () => {
         {/* Modal body */}
         <motion.div
           drag="y"
-          dragConstraints={{ top: 0, bottom: 0.5 }}
-          dragElastic={{ top: 0, bottom: 0.5 }}
-          dragMomentum={false}
-          onDragEnd={() => dispatch({ type: "SET_MODAL", value: false })}
+          dragConstraints={{ top: 0, bottom: 0 }}
+          dragElastic={0.8}
+          onDragEnd={(event, info) => {
+            if (info.offset.y > 200) {
+              dispatch({ type: "SET_MODAL", value: false });
+            }
+          }}
           key={movieId}
           variants={variants}
           initial="hidden"
           animate="enter"
           exit="exit"
-          className="bg-[#181725] fixed left-auto right-auto top-auto bottom-0 pb-10 rounded-t-3xl w-full sm:static sm:rounded-xl sm:w-[90vw] xl:w-[60vw] max-h-[96vh] z-50"
+          className="bg-[#181725] fixed left-auto right-auto top-auto bottom-0 pb-10 rounded-t-3xl w-full sm:static sm:rounded-xl sm:w-[90vw] xl:w-[60vw] max-h-[calc(100%-2rem)] z-50"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Nav modal buttons will change on mobile and desktop */}
@@ -172,7 +175,7 @@ const MovieDetails = () => {
           )}
 
           {/* Movie info */}
-          <div className="p-2 text-white">
+          <div className="p-2 text-white overflow-y-auto">
             <h1 className="text-left text-2xl font-medium">
               {movieDetails.homepage.length > 0 ? (
                 <a href={movieDetails.homepage}>{movieDetails.title}</a>
