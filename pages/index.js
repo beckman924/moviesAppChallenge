@@ -159,6 +159,7 @@ export default function Home(props) {
           {movies.map((movie) => {
             return (
               <motion.div
+                id="movie"
                 key={movie.id}
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1, y: -5 }}

@@ -37,6 +37,7 @@ const MovieDetails = () => {
       return (
         <div className="h-[50vh] w-full">
           <iframe
+            id="video"
             title="Movie trailer"
             src={`https://www.youtube.com/embed/${trailer.key}?autoplay=1&mute=1`}
             allow="autoplay; fullscreen"
@@ -101,6 +102,7 @@ const MovieDetails = () => {
     return (
       // Backdrop
       <div
+        id="backButton"
         className="inset-0 fixed grid place-content-center bg-[rgba(0,0,0,0.6)] overflow-y-auto z-50"
         onClick={() => dispatch({ type: "SET_MODAL", value: false })}
       >
